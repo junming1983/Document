@@ -1,0 +1,43 @@
+git init
+git add README.md
+git commit -m "first commit"
+git remote add origin https://github.com/junming1983/Repository.git
+git push -u origin master
+
+
+// clone server to local
+git clone {url}
+
+//check status
+git status
+
+//change folder
+cd sampleapps
+
+//commit changes and add comments "xxxx"
+git commit -am “xxxx"
+
+//push changes to server
+git push
+
+//clone code to test
+git clone —depth==1 {your url} test
+
+//add untracked file
+git add .
+
+//commit changes and add comments "xxxx"
+git commit -am “xxx"
+
+//list global config
+git config --global -l
+
+//add config
+git config --global --add http.proxy http://rnoproxy.is.ad.igt.com:9000
+git config --global --add https.proxy https://rnoproxy.is.ad.igt.com.9000
+
+//change directory
+cd ..
+
+//list config
+cat config
