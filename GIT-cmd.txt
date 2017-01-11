@@ -4,6 +4,25 @@ git commit -m "first commit"
 git remote add origin https://github.com/junming1983/Repository.git
 git push -u origin master
 
+//set username and email
+git config --global user.name "xxx"
+git config --global user.email "xxx"
+
+//list global config
+git config --global -l
+
+//add config
+git config --global --add http.proxy http://rnoproxy.is.ad.igt.com:9000
+git config --global --add https.proxy https://rnoproxy.is.ad.igt.com.9000
+
+
+//update 
+git add xxx.xxx
+git commit -am "xxx"
+git push
+
+//get latest
+git pull
 
 // clone server to local
 git clone {url}
@@ -29,12 +48,7 @@ git add .
 //commit changes and add comments "xxxx"
 git commit -am “xxx"
 
-//list global config
-git config --global -l
 
-//add config
-git config --global --add http.proxy http://rnoproxy.is.ad.igt.com:9000
-git config --global --add https.proxy https://rnoproxy.is.ad.igt.com.9000
 
 //change directory
 cd ..
