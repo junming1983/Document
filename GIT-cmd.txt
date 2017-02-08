@@ -55,3 +55,46 @@ cd ..
 
 //list config
 cat config
+
+
+//create new branch named mytest
+git branch mytest
+
+//checkout 
+git checkout mytest
+
+//switch to master branch
+
+
+//merge mytest branch to master branch, then delete the mytest branch
+//first of all, switch to master branch
+git checkout master
+git merge mytest
+git branch -D mytest
+
+
+//create a mytest branch on remote
+
+git branch mytest
+git checkout mytest
+git add -all
+git commit -m "my comments"
+git push origin mytest
+git checkout master
+git merge mytest
+git push origin master
+
+
+//remove local branch
+git branch -d branch_name
+
+//Note: The -d option is an alias for --delete, 
+//which only deletes the branch if it has already been fully merged in its upstream branch. 
+//You could also use -D, which is an alias for --delete --force, which deletes the branch "irrespective of its merged status." 
+
+//remove remote branch
+//git push [remotename] [localbranch]:[remotebranch] 
+//syntax that we went over a bit earlier. 
+//If you leave off the [localbranch] portion, then you’re basically saying, 
+//“Take nothing on my side and make it be [remotebranch].”
+git push origin :serverfix
