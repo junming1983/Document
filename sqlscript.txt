@@ -1,0 +1,66 @@
+create table #MyT(ID int NOT NULL AUTO_INCREMENT,
+
+---------------------------------find triggers where count > 0 
+declare @num int
+declare @res int
+declare @exec NVARCHAR(255)
+
+declare @paramDef NCHAR(255)
+
+set @paramDef = N'@res int output';
+set @num = 0
+
+while(@num < 100)
+begin
+set @exec = N'select @res=count(*) from tbm.triggers' + RIGHT(REPLICATE('0', 2) + CAST(@num as NVARCHAR), 2)
+exec sp_executesql @exec, @paramDef, @res output;
+if(@res > 0)
+begin
+print @num
+end
+else
+begin
+--print('not found')
+end
+set @num = @num + 1
+end
+
+
+
+-------------------------------SELECT Playerbalance in active promotion ------------------
+
+IF OBJECT_ID('tempdb..#TEMP1') IS NOT NULL
+DROP TABLE #TEMP1
+ELSE
+BEGIN
+Create TABLE #TEMP1(PlayerId BIGINT, PromotionName VARCHAR(255), Points INT)
+END
+
+DECLARE @PromotionScheduleId BIGINT 
+DECLARE @exec VARCHAR(MAX)
+DECLARE My_Cursor CURSOR FOR (SELECT Id FROM tbm.promotionschedules (nolock) where state = 1)
+OPEN My_Cursor;
+print('#')
+FETCH NEXT FROM My_Cursor INTO @PromotionScheduleId;
+WHILE @@FETCH_STATUS = 0
+    BEGIN
+        PRINT @PromotionScheduleId;
+        SET @exec = 'INSERT INTO #TEMP1(PlayerId, PromotionName, Points) ' +
+'(SELECT pt.PlayerId, pms.Name, pb.Accrue from TBM.PlayerBalances' + convert(varchar, @PromotionScheduleId % 10) +
+' as pb (nolock)' +
+' JOIN TBM.PromotionSchedules as pms (nolock) on pms.Id = pb.PromotionscheduleId' +
+' JOIN TBM.Patrons as pt (nolock) on pb.PatronId = pt.Id' + 
+' where pms.Id = ' + convert(varchar,@PromotionScheduleId) + ')';
+        FETCH NEXT FROM My_Cursor INTO @PromotionScheduleId;
+        exec(@exec)
+    END
+CLOSE My_Cursor;
+DEALLOCATE My_Cursor;
+
+select * from #TEMP1 
+
+IF OBJECT_ID('tempdb..#TEMP1') IS NOT NULL
+DROP TABLE #TEMP1
+
+GO
+
